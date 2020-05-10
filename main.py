@@ -50,7 +50,7 @@ if __name__=="__main__":
     train_BERTGraphRel_model(model=model,
                              trainloader=trainloader,
                              testloader=testloader,
-                             device="cpu",
+                             device="cuda:0",
                              model_save_path="./",
                              nepochs=50,
                              lr=0.0001,
