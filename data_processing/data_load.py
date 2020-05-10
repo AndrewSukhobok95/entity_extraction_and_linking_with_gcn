@@ -71,33 +71,38 @@ def collate_fn(batch):
                   - ne_tensor: tensor.size() -> (seq_len)
                   - rel_tensor: tensor.size() -> (seq_len, seq_len)
     :return: Prepared data tensors:
-             - b_avgemb_tensor: size() -> ( max_seq_len, batch, embedding_size )
-             - b_ne_tensor: size() -> ( max_seq_len, batch )
+             - b_avgemb_tensor: size() -> ( seq_len, batch, embedding_size )
+             - b_ne_tensor: size() -> ( seq_len, batch )
              - b_rel_tensor: size is regulated by batch_first parameter of pad_rel_tensors
-                - If batch_first = True: tensor.size() -> ( batch, max_seq_len, max_seq_len )
-                - If batch_first = False: tensor.size() -> ( max_seq_len, max_seq_len, batch )
+                - If batch_first = True: tensor.size() -> ( batch, seq_len, seq_len )
+                - If batch_first = False: tensor.size() -> ( seq_len, seq_len, batch )
     '''
     n_obs = len(batch)
     sentences = []
     ne_output = []
     rel_output = []
+    sentences_length = []
     batch = sorted(batch, key=lambda x: x[0].size(0), reverse=True)
     for i in range(n_obs):
         sentences.append(batch[i][0])
         ne_output.append(batch[i][1])
         rel_output.append(batch[i][2])
+        sentences_length.append(batch[i][0].size(0))
     b_avgemb_tensor = nn.utils.rnn.pad_sequence(sentences, batch_first=False, padding_value=0)
     b_ne_tensor = nn.utils.rnn.pad_sequence(ne_output, batch_first=False, padding_value=-1)
     b_rel_tensor = pad_rel_tensors(rel_output, batch_first=False, padding_value=-1)
-    return b_avgemb_tensor, b_ne_tensor, b_rel_tensor
+    return b_avgemb_tensor, b_ne_tensor, b_rel_tensor, sentences_length
 
 
 if __name__=="__main__":
 
     from data_processing.BERTinizer import SentenceBERTinizer
     from data_processing.data_prep import EntityRelationsAligner, get_dataset
+    from pytorch_pretrained_bert import BertTokenizer, BertModel
 
-    data_nyt_train, NE_LIST, REL_LIST = get_dataset("./../data/preproc_NYT_json/train.json")
+    _bert_wp_tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+
+    data_nyt_train, NE_LIST, REL_LIST = get_dataset("./../data/preproc_NYT_json/train.json", _bert_wp_tokenizer)
     sentbertnizer = SentenceBERTinizer()
     er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
 

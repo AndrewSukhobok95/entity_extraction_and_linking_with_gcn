@@ -35,7 +35,7 @@ def train_BERTGraphRel_model(model,
     for epoch in range(nepochs):
         model.train()
         for i, batch in enumerate(trainloader):
-            b_avgemb_tensor, b_ne_tensor, b_rel_tensor = batch
+            b_avgemb_tensor, b_ne_tensor, b_rel_tensor, sentences_length = batch
 
             b_avgemb_tensor = b_avgemb_tensor.to(tdevice)
             b_ne_tensor = b_ne_tensor.to(tdevice)
@@ -82,7 +82,7 @@ def train_BERTGraphRel_model(model,
         if testloader is not None:
             model.eval()
             for i, batch in enumerate(testloader):
-                b_avgemb_tensor, b_ne_tensor, b_rel_tensor = batch
+                b_avgemb_tensor, b_ne_tensor, b_rel_tensor, sentences_length = batch
 
                 b_avgemb_tensor = b_avgemb_tensor.to(tdevice)
                 b_ne_tensor = b_ne_tensor.to(tdevice)
