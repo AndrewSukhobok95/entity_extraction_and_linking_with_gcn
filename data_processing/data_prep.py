@@ -167,9 +167,6 @@ class EntityRelationsAligner(object):
             e_tgt = r["em2Text"]
             rel = r["label"]
 
-            if e_tgt=="Medellín":
-                print()
-
             rel_index = self.REL_mod_to_index_dict[rel]
             e_src_index = entities_dict[e_src]["tokens_index"][0]
             e_tgt_index = entities_dict[e_tgt]["tokens_index"][0]
@@ -223,6 +220,7 @@ def get_dataset(path):
 
     with open(path) as file:
         for f in file:
+            skip_obs = False
             obs = json.loads(f)
 
             sentText = obs["sentText"]
@@ -233,16 +231,19 @@ def get_dataset(path):
                 ne_set.add(ne["label"])
                 if ne["text"] not in sentText:
                     n_broken += 1
-                    continue
+                    skip_obs = True
 
             for rel in rel_mentiones:
                 rel_set.add(rel["label"])
                 if rel["em1Text"] not in sentText:
                     n_broken += 1
-                    continue
+                    skip_obs = True
                 if rel["em2Text"] not in sentText:
                     n_broken += 1
-                    continue
+                    skip_obs = True
+
+            if skip_obs:
+                continue
 
             n_obs += 1
             data.append(obs)
