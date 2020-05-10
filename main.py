@@ -3,6 +3,7 @@ import json
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
+from pytorch_pretrained_bert import BertTokenizer, BertModel
 
 from data_processing.BERTinizer import SentenceBERTinizer
 from data_processing.data_prep import EntityRelationsAligner, get_dataset
@@ -18,11 +19,13 @@ if __name__=="__main__":
 
     print("+ Reading data.")
 
+    _bert_wp_tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+
     nyt_json_train = "./data/preproc_NYT_json/train.json"
     nyt_json_test = "./data/preproc_NYT_json/test.json"
 
-    data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train)
-    data_nyt_test, _, _ = get_dataset(nyt_json_test)
+    data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train, _bert_wp_tokenizer)
+    data_nyt_test, _, _ = get_dataset(nyt_json_test, _bert_wp_tokenizer)
 
     print("+ Preparing data.")
 

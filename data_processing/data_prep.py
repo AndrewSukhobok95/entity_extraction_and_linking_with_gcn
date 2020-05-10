@@ -210,7 +210,7 @@ class EntityRelationsAligner(object):
 
 
 
-def get_dataset(path):
+def get_dataset(path, bert_wp_tokenizer):
     data = []
     ne_set = set()
     rel_set = set()
@@ -226,6 +226,12 @@ def get_dataset(path):
             sentText = obs["sentText"]
             ne_mentiones = obs['entityMentions']
             rel_mentiones = obs['relationMentions']
+
+            marked_sentText = "[CLS] " + sentText + " [SEP]"
+            sentText_wp_tokens = bert_wp_tokenizer.wordpiece_tokenizer.tokenize(marked_sentText)
+
+            if len(sentText_wp_tokens) > 512:
+                skip_obs = True
 
             for ne in ne_mentiones:
                 ne_set.add(ne["label"])
@@ -258,13 +264,15 @@ def get_dataset(path):
 
 if __name__=="__main__":
 
+    _bert_wp_tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+
     # wiki_json_train = "./data/preproc_WikiKBP_json/train.json"
     # pubmed_json_train = "./data/preproc_PubMed_json/train.json"
     nyt_json_train = "./../data/preproc_NYT_json/train.json"
     nyt_json_test = "./../data/preproc_NYT_json/test.json"
 
-    data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train)
-    data_nyt_test, _, _ = get_dataset(nyt_json_test)
+    data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train, _bert_wp_tokenizer)
+    data_nyt_test, _, _ = get_dataset(nyt_json_test, _bert_wp_tokenizer)
 
     obs = data_nyt_train[5]
     sentence = obs["sentText"]

@@ -18,7 +18,7 @@ def train_BERTGraphRel_model(model,
                              trainloader,
                              testloader=None,
                              device="cpu",
-                             model_save_path="./",
+                             model_save_path="./model.pth",
                              nepochs=50,
                              lr=0.0001,
                              loss_p2_weight=2,
@@ -74,6 +74,8 @@ def train_BERTGraphRel_model(model,
                 dur = (int)(time.time() - train_start_time)
                 print("{0:d} batches done in {1:d}m:{2:d}s".format(i + 1, dur // 60, dur % 60), end='\r')
                 torch.save(model.state_dict(), model_save_path)
+
+        torch.save(model.state_dict(), model_save_path)
 
         print("+ Epoch {0:d}: Train Loss:\t{1:0.3f}".format(epoch + 1, loss.item()))
 
