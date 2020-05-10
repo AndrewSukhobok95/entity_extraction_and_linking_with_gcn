@@ -27,6 +27,11 @@ if __name__=="__main__":
     data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train, _bert_wp_tokenizer)
     data_nyt_test, _, _ = get_dataset(nyt_json_test, _bert_wp_tokenizer)
 
+    for d in data_nyt_train:
+        l = len(_bert_wp_tokenizer.wordpiece_tokenizer.tokenize(d["sentText"]))
+        if l > 512:
+            print("found")
+
     print("+ Preparing data.")
 
     sentbertnizer = SentenceBERTinizer()

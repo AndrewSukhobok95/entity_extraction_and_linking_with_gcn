@@ -46,7 +46,7 @@ class SentenceBERTinizer(object):
         :return:
             - tokens_wp: tokens with WordPiece splitting
             - tokens_ids_wp_tensor: tensor with indices of NE
-            - segments_ids_wp_tensors: tensor with segmrnts (tensor of 1 in this case)
+            - segments_ids_wp_tensors: tensor with segments (tensor of 1s in this case)
             - tokens_base: tokens without WordPiece splitting and removed [CLS] and [SEP]
         '''
         marked_s = "[CLS] " + sentence + " [SEP]"
