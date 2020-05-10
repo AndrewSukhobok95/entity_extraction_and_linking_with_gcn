@@ -167,6 +167,9 @@ class EntityRelationsAligner(object):
             e_tgt = r["em2Text"]
             rel = r["label"]
 
+            if e_tgt=="Medellín":
+                print()
+
             rel_index = self.REL_mod_to_index_dict[rel]
             e_src_index = entities_dict[e_src]["tokens_index"][0]
             e_tgt_index = entities_dict[e_tgt]["tokens_index"][0]
@@ -212,20 +215,41 @@ class EntityRelationsAligner(object):
 
 def get_dataset(path):
     data = []
-    with open(path) as file:
-        for f in file:
-            line = json.loads(f)
-            data.append(line)
-
     ne_set = set()
     rel_set = set()
-    for obs in data:
-        ne_mentiones = obs['entityMentions']
-        for ne in ne_mentiones:
-            ne_set.add(ne["label"])
-        rel_mentiones = obs['relationMentions']
-        for rel in rel_mentiones:
-            rel_set.add(rel["label"])
+
+    n_obs = 0
+    n_broken = 0
+
+    with open(path) as file:
+        for f in file:
+            obs = json.loads(f)
+
+            sentText = obs["sentText"]
+            ne_mentiones = obs['entityMentions']
+            rel_mentiones = obs['relationMentions']
+
+            for ne in ne_mentiones:
+                ne_set.add(ne["label"])
+                if ne["text"] not in sentText:
+                    n_broken += 1
+                    continue
+
+            for rel in rel_mentiones:
+                rel_set.add(rel["label"])
+                if rel["em1Text"] not in sentText:
+                    n_broken += 1
+                    continue
+                if rel["em2Text"] not in sentText:
+                    n_broken += 1
+                    continue
+
+            n_obs += 1
+            data.append(obs)
+
+    print("++ Reading", path)
+    print("++++ Number of added observations:", n_obs)
+    print("++++ Number of broken (excluded) observations:", n_broken)
 
     return data, list(ne_set), list(rel_set)
 

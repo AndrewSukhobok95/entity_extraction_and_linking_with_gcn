@@ -16,11 +16,15 @@ if __name__=="__main__":
 
     # Data Prep
 
+    print("+ Reading data.")
+
     nyt_json_train = "./data/preproc_NYT_json/train.json"
     nyt_json_test = "./data/preproc_NYT_json/test.json"
 
     data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train)
     data_nyt_test, _, _ = get_dataset(nyt_json_test)
+
+    print("+ Preparing data.")
 
     sentbertnizer = SentenceBERTinizer()
     er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
@@ -32,6 +36,8 @@ if __name__=="__main__":
     testloader = DataLoader(trainset, batch_size=8, collate_fn=collate_fn)
 
     # Model Prep
+
+    print("+ Preparing model.")
 
     num_ne = er_aligner.NE_vsize
     num_rel = er_aligner.REL_vsize
@@ -45,12 +51,12 @@ if __name__=="__main__":
 
     # Model training
 
-    print("+ Start training:")
+    print("+ Start training.")
 
     train_BERTGraphRel_model(model=model,
                              trainloader=trainloader,
                              testloader=testloader,
-                             device="cuda:0",
+                             device="cpu", # cuda:0 / cpu
                              model_save_path="./",
                              nepochs=50,
                              lr=0.0001,
