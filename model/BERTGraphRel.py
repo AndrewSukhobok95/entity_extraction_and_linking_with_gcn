@@ -102,7 +102,7 @@ class BERTGraphRel(nn.Module):
 
         out_enc_p2 = out_enc
         for i in range(self.num_rel):
-            out_enc_p2 += gcn_outs[i]
+            out_enc_p2 = out_enc_p2 + gcn_outs[i]
 
         out_ne_p2, out_rel_p2 = self.prediction_block(out_enc_p2)
 

@@ -81,7 +81,9 @@ class EntityRelationsAligner(object):
             e["n_tokens"] = len(e["tokens"])
         for i in range(len(tokens)):
             for e in entities:
-                if np.all(np.array(tokens[i:(i + e["n_tokens"])]) == np.array(e["tokens"])):
+                e_tokens = np.array(e["tokens"])
+                s_tokens = np.array(tokens[i:(i + e["n_tokens"])])
+                if (e_tokens.size == s_tokens.size) and np.all(e_tokens == s_tokens):
                     e["tokens_index"] = list(range(i, (i + e["n_tokens"])))
         return entities
 
@@ -133,7 +135,10 @@ class EntityRelationsAligner(object):
             entities_dict[e["text"]] = e
         return entities_dict
 
-    def get_rel_tensor(self, n_tokens: int, entities_dict: dict, relations: List[dict]) -> torch.tensor:
+    def get_rel_tensor(self, n_tokens: int,
+                       entities_dict: dict,
+                       relations: List[dict],
+                       rel_3Dtensor_out: bool=False) -> torch.tensor:
         '''
         Create torch.tensor for relations in the sentence
         :param n_tokens: number of tokens in sentence
@@ -146,9 +151,15 @@ class EntityRelationsAligner(object):
         :param relations: [{"em1Text": "Entity 1",
                             "em2Text": "Entity 2",
                             "label": "relation" }, ...]
-        :return: tensor.size() -> ( number of relations, n_tokens, n_tokens )
+        :param rel_3Dtensor_out: define the format of output relations tensor
+        :return: tensor, defining relations between entities
+            - if rel_3Dtensor_out=True: tensor.size() -> ( number of relations, n_tokens, n_tokens )
+            - if rel_3Dtensor_out=False: tensor.size() -> ( n_tokens, n_tokens )
         '''
-        rel_array = np.ones((self.REL_vsize, n_tokens, n_tokens))
+        if rel_3Dtensor_out:
+            rel_array = np.ones((self.REL_vsize, n_tokens, n_tokens))
+        else:
+            rel_array = np.ones((n_tokens, n_tokens))
         rel_array = rel_array * self.REL_mod_to_index_dict["O"]
 
         for r in relations:
@@ -160,7 +171,10 @@ class EntityRelationsAligner(object):
             e_src_index = entities_dict[e_src]["tokens_index"][0]
             e_tgt_index = entities_dict[e_tgt]["tokens_index"][0]
 
-            rel_array[rel_index, e_src_index, e_tgt_index] = 1
+            if rel_3Dtensor_out:
+                rel_array[rel_index, e_src_index, e_tgt_index] = 1
+            else:
+                rel_array[e_src_index, e_tgt_index] = rel_index
 
         return torch.tensor(rel_array)
 
@@ -178,8 +192,11 @@ class EntityRelationsAligner(object):
                               "em2Text": "Entity 2",
                               "label": "relation" }, ...]
         :return: 2 tensors
-            - tensor.size() -> ( n_tokens )
-            - tensor.size() -> ( number of relations, n_tokens, n_tokens )
+            - For entities: tensor.size() -> ( n_tokens )
+            - For relations:
+                - Default: tensor.size() -> ( n_tokens, n_tokens )
+                - Using rel_3Dtensor_out parameter of self.get_rel_tensor, could be changed to:
+                    tensor.size() -> ( number of relations, n_tokens, n_tokens )
         '''
         n_tokens = len(tokens)
 
