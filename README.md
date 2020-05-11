@@ -22,6 +22,10 @@
 * Inter Sentence RE GCN
     * https://arxiv.org/pdf/1906.04684.pdf
 
+* A Hierarchical Framework for Relation Extraction with Reinforcement Learning
+    * https://arxiv.org/abs/1811.03925
+    * https://github.com/truthless11/HRL-RE
+
 #### Datasets:
 
 Ready datastes:

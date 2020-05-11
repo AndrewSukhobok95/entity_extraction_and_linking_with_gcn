@@ -3,7 +3,7 @@ from pytorch_pretrained_bert import BertTokenizer, BertModel
 import numpy as np
 import json
 from typing import List, Tuple
-
+import tqdm
 
 class EntityRelationsAligner(object):
     def __init__(self, tokenizer, ne_tags: List[str], rel_tags: List[str]):
@@ -219,7 +219,7 @@ def get_dataset(path, bert_wp_tokenizer):
     n_broken = 0
 
     with open(path) as file:
-        for f in file:
+        for f in tqdm.tqdm(file):
             skip_obs = False
             obs = json.loads(f)
 
@@ -227,7 +227,8 @@ def get_dataset(path, bert_wp_tokenizer):
             ne_mentiones = obs['entityMentions']
             rel_mentiones = obs['relationMentions']
 
-            marked_sentText = "[CLS] " + sentText + " [SEP]"
+            marked_sentText = "[CLS] " + sentText.lower() + " [SEP]"
+            #sentText_wp_tokens = bert_wp_tokenizer.tokenize(marked_sentText)
             sentText_wp_tokens = bert_wp_tokenizer.wordpiece_tokenizer.tokenize(marked_sentText)
 
             if len(sentText_wp_tokens) > 512:

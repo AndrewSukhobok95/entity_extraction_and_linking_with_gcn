@@ -100,10 +100,10 @@ if __name__=="__main__":
     from data_processing.data_prep import EntityRelationsAligner, get_dataset
     from pytorch_pretrained_bert import BertTokenizer, BertModel
 
-    _bert_wp_tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-
-    data_nyt_train, NE_LIST, REL_LIST = get_dataset("./../data/preproc_NYT_json/train.json", _bert_wp_tokenizer)
     sentbertnizer = SentenceBERTinizer()
+
+    data_nyt_train, NE_LIST, REL_LIST = get_dataset("./../data/preproc_NYT_json/train.json", sentbertnizer.tokenizer)
+
     er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
 
     trainset = NYTjsonDataset(data_nyt_train, sentbertnizer, er_aligner)

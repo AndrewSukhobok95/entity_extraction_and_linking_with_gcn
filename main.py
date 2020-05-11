@@ -15,21 +15,24 @@ from model.training import train_BERTGraphRel_model
 
 if __name__=="__main__":
 
+    # BERT Prep
+
+    print("+ Preparing BERT model.")
+
+    sentbertnizer = SentenceBERTinizer()
+
     # Data Prep
 
     print("+ Reading data.")
 
-    _bert_wp_tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-
     nyt_json_train = "./data/preproc_NYT_json/train.json"
     nyt_json_test = "./data/preproc_NYT_json/test.json"
 
-    data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train, _bert_wp_tokenizer)
-    data_nyt_test, _, _ = get_dataset(nyt_json_test, _bert_wp_tokenizer)
+    data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train, sentbertnizer.tokenizer)
+    data_nyt_test, _, _ = get_dataset(nyt_json_test, sentbertnizer.tokenizer)
 
     print("+ Preparing data.")
 
-    sentbertnizer = SentenceBERTinizer()
     er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
 
     trainset = NYTjsonDataset(data_nyt_train, sentbertnizer, er_aligner)
@@ -37,9 +40,6 @@ if __name__=="__main__":
 
     trainloader = DataLoader(trainset, batch_size=8, collate_fn=collate_fn)
     testloader = DataLoader(trainset, batch_size=8, collate_fn=collate_fn)
-
-    for i, b in enumerate(trainloader):
-        print(i)
 
     # Model Prep
 
