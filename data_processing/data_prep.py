@@ -211,6 +211,19 @@ class EntityRelationsAligner(object):
 
 
 def get_dataset(path, bert_wp_tokenizer):
+    '''
+    Temporary function for particular dataset provided by https://github.com/INK-USC/USC-DS-RelationExtraction.
+    It excludes observations that:
+        - Have mismatches between entities and original text
+        - Are longer then 512 tokens after WordPiece tokenezation (BERT restriction)
+    Also collects all mentioned entities and relation types
+    :param path: path to json file
+    :param bert_wp_tokenizer: BERT tokenizer
+    :return:
+        - Filtered data -> list of dicts
+        - List of unique entity types -> list of strs
+        - List of unique relation types -> list of strs
+    '''
     data = []
     ne_set = set()
     rel_set = set()
@@ -227,8 +240,9 @@ def get_dataset(path, bert_wp_tokenizer):
             ne_mentiones = obs['entityMentions']
             rel_mentiones = obs['relationMentions']
 
-            marked_sentText = "[CLS] " + sentText.lower() + " [SEP]"
+            #marked_sentText = "[CLS] " + sentText + " [SEP]"
             #sentText_wp_tokens = bert_wp_tokenizer.tokenize(marked_sentText)
+            marked_sentText = "[CLS] " + sentText.lower() + " [SEP]"
             sentText_wp_tokens = bert_wp_tokenizer.wordpiece_tokenizer.tokenize(marked_sentText)
 
             if len(sentText_wp_tokens) > 512:

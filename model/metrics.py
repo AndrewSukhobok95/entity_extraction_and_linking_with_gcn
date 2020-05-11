@@ -1,5 +1,5 @@
 import torch
-
+from typing import List
 
 
 class TripletConfusionStats(object):
@@ -8,21 +8,21 @@ class TripletConfusionStats(object):
         self.FP = 0
         self.FN = 0
 
-    def getPrecision(self):
+    def getPrecision(self) -> float:
         denom = self.TP + self.FP
         if denom == 0:
             return 0
         p = self.TP / denom
         return p
 
-    def getRecall(self):
+    def getRecall(self) -> float:
         denom = self.TP + self.FN
         if denom == 0:
             return 0
         r = self.TP / denom
         return r
 
-    def getF1(self):
+    def getF1(self) -> float:
         p = self.getPrecision()
         r = self.getRecall()
         if p + r == 0:
@@ -35,7 +35,7 @@ class TripletConfusionStats(object):
                     batch_ne_true: torch.tensor,
                     batch_rel_pred: torch.tensor,
                     batch_rel_true: torch.tensor,
-                    sentences_length: list):
+                    sentences_length: List[int]):
 
         batch_size = batch_ne_pred.size(1)
 
@@ -55,9 +55,9 @@ class TripletConfusionStats(object):
                     pred_e1 = batch_ne_pred[y_pr, b].item()
                     pred_e2 = batch_ne_pred[x_pr, b].item()
 
-                    true_rel = batch_rel_true[y_pr, x_pr, b].item()
-                    true_e1 = batch_ne_true[y_pr, b].item()
-                    true_e2 = batch_ne_true[x_pr, b].item()
+                    true_rel = batch_rel_true[y_tr, x_tr, b].item()
+                    true_e1 = batch_ne_true[y_tr, b].item()
+                    true_e2 = batch_ne_true[x_tr, b].item()
 
                     if (pred_rel==true_rel) & (pred_e1==true_e1) & (pred_e2==true_e2):
                         cur_tp += 1

@@ -72,7 +72,7 @@ def train_BERTGraphRel_model(model,
 
             if (i + 1) % 100 == 0:
                 dur = (int)(time.time() - train_start_time)
-                print("{0:d} batches done in {1:d}m:{2:d}s".format(i + 1, dur // 60, dur % 60))#, end='\r')
+                print("{0:d} batches done in {1:d}m:{2:d}s".format(i + 1, dur // 60, dur % 60), end='\r')
                 torch.save(model.state_dict(), model_save_path)
 
         torch.save(model.state_dict(), model_save_path)

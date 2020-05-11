@@ -98,7 +98,6 @@ if __name__=="__main__":
 
     from data_processing.BERTinizer import SentenceBERTinizer
     from data_processing.data_prep import EntityRelationsAligner, get_dataset
-    from pytorch_pretrained_bert import BertTokenizer, BertModel
 
     sentbertnizer = SentenceBERTinizer()
 

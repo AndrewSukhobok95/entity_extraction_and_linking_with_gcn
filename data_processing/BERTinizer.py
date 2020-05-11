@@ -64,6 +64,12 @@ class SentenceBERTinizer(object):
 
     def average_wp_embeddings(self, emb: torch.tensor,
                               wp_tokens: List[str]) -> torch.tensor:
+        '''
+        Average the vectors for tokens that are parts of split by WordPiece tokens
+        :param emb: Embedding tensor: size() -> ( seq_len, embedding_size )
+        :param wp_tokens: List of tokens with split by WordPiece
+        :return: Average embedding tensor: size() -> ( seq_len (modified), embedding_size )
+        '''
         mask = list(map(lambda x: 1 if x[0:2]=="##" else 0, wp_tokens))
         out_dim = len(list(filter(lambda x: x==0, mask)))
         avg_embedding = torch.zeros(out_dim, emb.size(1))
@@ -83,15 +89,21 @@ class SentenceBERTinizer(object):
 
     def get_embeddings(self, tokens_ids_tensor: torch.tensor,
                        segments_ids_tensors: torch.tensor) -> torch.tensor:
+        '''
+        Get BERT embeddings for the input sentence.
+        It is assumed that sentence was processed by BERT tokenizer.
+        (So input tokens are WordPiece split)
+        :param tokens_ids_tensor: tensor with ids of tokens from vocab
+        :param segments_ids_tensors: tensor of 1s since we input only 1 sentence
+        :return: tensor of embeddings: size() -> ( seq_len, embedding_size )
+        '''
 
         with torch.no_grad():
             encoded_layers, encoded_output = self.bert_model(tokens_ids_tensor, segments_ids_tensors)
 
-        # tokens_embeddings.size() -> ( layers , batch , seq_len , embedding_size )
-        # tokens_embeddings = torch.stack(encoded_layers, dim=0)
-        # tokens_embeddings = tokens_embeddings.permute(1,0,2)
+        # tokens_embeddings = torch.stack(encoded_layers, dim=0) # tokens_embeddings.size() -> ( layers , batch , seq_len , embedding_size )
+        # tokens_embeddings = tokens_embeddings.permute(1,0,2) # tokens_embeddings.size() -> ( batch , seq_len , embedding_size )
 
-        # tokens_embeddings.size() -> ( batch , seq_len , embedding_size )
         tokens_embeddings = encoded_layers[self.num_hidden_layers - 1].squeeze()
 
         return tokens_embeddings
