@@ -22,7 +22,14 @@ def train_BERTGraphRel_model(model,
                              nepochs=50,
                              lr=0.0001,
                              loss_p2_weight=2,
-                             loss_ignore_index=-1):
+                             loss_ignore_index=-1,
+                             load_model=True):
+
+    if load_model:
+        model.load_state_dict(
+            torch.load(model_save_path,
+                       map_location=lambda storage, loc: storage)
+        )
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     criteriation = nn.NLLLoss(ignore_index=loss_ignore_index)
@@ -93,7 +100,6 @@ def train_BERTGraphRel_model(model,
 
                 # dim ( seq_len, batch, num_ne ) -> ( batch, num_ne, seq_len )
                 pred_ne_p1 = out_ne_p1.permute(1, 2, 0)
-
                 pred_ne_p2 = out_ne_p2.permute(1, 2, 0)
                 # dim ( seq_len, seq_len, batch, num_rel ) -> ( batch, num_rel, seq_len, seq_len )
                 pred_rel_p1 = out_rel_p1.permute(2, 3, 0, 1)
@@ -113,6 +119,10 @@ def train_BERTGraphRel_model(model,
                                           pred_rel_p2,
                                           tgt_ne,
                                           tgt_rel)
+
+                if (i + 1) % 20 == 0:
+                    dur = (int)(time.time() - train_start_time)
+                    print("{0:d} batches done in {1:d}m:{2:d}s".format(i + 1, dur // 60, dur % 60), end='\r')
 
             print("+ Epoch {0:d}: Test Loss:\t{1:0.3f}".format(epoch + 1, test_loss.item()))
 

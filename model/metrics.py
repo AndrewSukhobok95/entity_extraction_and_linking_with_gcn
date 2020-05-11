@@ -2,6 +2,7 @@ import torch
 from typing import List
 
 
+
 class TripletConfusionStats(object):
     def __init__(self):
         self.TP = 0
