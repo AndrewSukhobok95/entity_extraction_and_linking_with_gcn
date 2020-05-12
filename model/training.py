@@ -32,7 +32,7 @@ def train_BERTGraphRel_model(model,
         )
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    criteriation = nn.NLLLoss(ignore_index=loss_ignore_index)
+    criteriation = nn.CrossEntropyLoss(ignore_index=loss_ignore_index)
 
     tdevice = torch.device(device)
     model.to(tdevice)
