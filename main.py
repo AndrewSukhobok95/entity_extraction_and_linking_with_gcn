@@ -63,10 +63,11 @@ if __name__=="__main__":
                              trainloader=trainloader,
                              testloader=testloader,
                              device="cuda:0", # cuda:0 / cpu
-                             model_save_path="./bertgl_v0.pth",
+                             model_save_path="./bertgl_v0_zombie.pth",
                              nepochs=50,
                              lr=0.0001,
-                             loss_p2_weight=2)
+                             loss_p2_weight=2,
+                             load_model=False)
 
     print("+ done!")
 
