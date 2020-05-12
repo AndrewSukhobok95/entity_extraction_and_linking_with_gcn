@@ -61,7 +61,7 @@ if __name__=="__main__":
 
     train_BERTGraphRel_model(model=model,
                              trainloader=trainloader,
-                             testloader=testloader,
+                             testloader=None,
                              device="cuda:0", # cuda:0 / cpu
                              model_save_path="./bertgl_v0_zombie.pth",
                              nepochs=50,

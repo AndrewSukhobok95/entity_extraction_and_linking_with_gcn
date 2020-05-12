@@ -126,7 +126,7 @@ def train_BERTGraphRel_model(model,
 
             print("+ Epoch {0:d}: Test Loss:\t{1:0.3f}".format(epoch + 1, test_loss.item()))
 
-        print("=================================")
+            print("=================================")
 
 if __name__=="__main__":
 
