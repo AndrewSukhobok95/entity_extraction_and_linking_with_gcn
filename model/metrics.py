@@ -40,6 +40,9 @@ class TripletConfusionStats(object):
 
         batch_size = batch_ne_pred.size(1)
 
+        batch_ne_pred = batch_ne_pred.argmax(dim=2)
+        batch_rel_pred = batch_rel_pred.argmax(dim=3)
+
         for b in range(batch_size):
             sl = sentences_length[b]
             pred_rel_inds = batch_rel_pred[:sl, :sl, b].nonzero().detach().numpy()

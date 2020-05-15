@@ -42,6 +42,10 @@ Ready datastes:
 
 	* https://github.com/dstl/re3d
 
+* Synthetic data:
+
+    * http://knowitall.cs.washington.edu/leibniz/
+
 Other Datasets and Info:
 
 * Aggeragation page for many datsets: https://github.com/davidsbatista/Annotated-Semantic-Relationships-Datasets/blob/master/README.md

@@ -8,10 +8,16 @@ from pytorch_pretrained_bert import BertTokenizer, BertModel
 from data_processing.BERTinizer import SentenceBERTinizer
 from data_processing.data_prep import EntityRelationsAligner, get_dataset
 from data_processing.data_load import NYTjsonDataset, collate_fn
+from data_processing.EntityRelationInfoCollector import InfoCollector
 from model.BERTGraphRel import BERTGraphRel
 from model.training import train_BERTGraphRel_model
+from model.evaluation import eval_BERTGraphRel_model
 
-
+train = False
+eval = True
+save_text_info = False
+load_text_info_from_json = True
+text_info_dict_path = "./json_dicts/NYT_info.json"
 
 if __name__=="__main__":
 
@@ -33,7 +39,20 @@ if __name__=="__main__":
 
     print("+ Preparing data.")
 
+    info_collector = InfoCollector()
+
+    if load_text_info_from_json:
+        print("+ Loading text info.")
+        info_collector.load_info_dict(path=text_info_dict_path)
+        num_ne = info_collector.info_dict["entity_vsize"]
+        num_rel = info_collector.info_dict["rel_vsize"]
+        NE_LIST = info_collector.info_dict["original_entities"]
+        REL_LIST = info_collector.info_dict["original_relations"]
+
     er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
+    if not load_text_info_from_json:
+        num_ne = er_aligner.NE_vsize
+        num_rel = er_aligner.REL_vsize
 
     trainset = NYTjsonDataset(data_nyt_train, sentbertnizer, er_aligner)
     testset = NYTjsonDataset(data_nyt_test, sentbertnizer, er_aligner)
@@ -42,12 +61,21 @@ if __name__=="__main__":
     testloader = DataLoader(trainset, batch_size=8, collate_fn=collate_fn)
 
     # Model Prep
+    embedding_size = sentbertnizer.embedding_size
+
+    if save_text_info:
+        print("+ Saving text info.")
+        info_collector.remember_info(entities=NE_LIST,
+                                     relations=REL_LIST,
+                                     entity_vsize=num_ne,
+                                     rel_vsize=num_rel,
+                                     mod_entities=er_aligner.NE_biotags,
+                                     mod_relations=er_aligner.REL_mod_tags,
+                                     mod_entities_id_dict=er_aligner.NE_bio_to_index_dict,
+                                     mod_relations_id_dict=er_aligner.REL_mod_to_index_dict)
+        info_collector.save_info_dict(path=text_info_dict_path)
 
     print("+ Preparing model.")
-
-    num_ne = er_aligner.NE_vsize
-    num_rel = er_aligner.REL_vsize
-    embedding_size = sentbertnizer.embedding_size
 
     model = BERTGraphRel(num_ne=num_ne,
                          num_rel=num_rel,
@@ -57,17 +85,26 @@ if __name__=="__main__":
 
     # Model training
 
-    print("+ Start training.")
+    if train:
+        print("+ Start training.")
+        train_BERTGraphRel_model(model=model,
+                                 trainloader=trainloader,
+                                 testloader=None,
+                                 device="cuda:0", # cuda:0 / cpu
+                                 model_save_path="./bertgl_v0_zombie.pth",
+                                 nepochs=50,
+                                 lr=0.0001,
+                                 loss_p2_weight=2,
+                                 load_model=True)
 
-    train_BERTGraphRel_model(model=model,
-                             trainloader=trainloader,
-                             testloader=None,
-                             device="cuda:0", # cuda:0 / cpu
-                             model_save_path="./bertgl_v0_zombie.pth",
-                             nepochs=50,
-                             lr=0.0001,
-                             loss_p2_weight=2,
-                             load_model=False)
+    if eval:
+        print("+ Start evaluation.")
+        eval_BERTGraphRel_model(model=model,
+                                trainloader=trainloader,
+                                testloader=testloader,
+                                device="cpu", # cuda:0 / cpu
+                                model_save_path="./bertgl_v0_zombie.pth",
+                                load_model=True)
 
     print("+ done!")
 

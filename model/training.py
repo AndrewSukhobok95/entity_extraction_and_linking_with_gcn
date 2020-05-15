@@ -30,6 +30,7 @@ def train_BERTGraphRel_model(model,
             torch.load(model_save_path,
                        map_location=lambda storage, loc: storage)
         )
+        print("+ Model", model_save_path, "loaded.")
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     criteriation = nn.CrossEntropyLoss(ignore_index=loss_ignore_index)
