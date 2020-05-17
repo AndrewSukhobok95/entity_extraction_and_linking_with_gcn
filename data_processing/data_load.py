@@ -5,7 +5,7 @@ from typing import List
 
 
 
-class NYTjsonDataset(Dataset):
+class jsonDataset(Dataset):
     def __init__(self, data, bertinizer, eraligner):
         self.data = data
         self.bertinizer = bertinizer
@@ -105,7 +105,7 @@ if __name__=="__main__":
 
     er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
 
-    trainset = NYTjsonDataset(data_nyt_train, sentbertnizer, er_aligner)
+    trainset = jsonDataset(data_nyt_train, sentbertnizer, er_aligner)
 
     trainloader = DataLoader(trainset, batch_size=2, collate_fn=collate_fn)
 

@@ -1,10 +1,12 @@
 # DL_GraphEntity_project
 
+---
 #### Related links:
 
 * BERT link:
     * https://mccormickml.com/2019/05/14/BERT-word-embeddings-tutorial/
 
+---
 #### Related papers:
 
 * Span BERT
@@ -26,6 +28,7 @@
     * https://arxiv.org/abs/1811.03925
     * https://github.com/truthless11/HRL-RE
 
+---
 #### Datasets:
 
 Ready datastes:

@@ -7,7 +7,7 @@ from pytorch_pretrained_bert import BertTokenizer, BertModel
 
 from data_processing.BERTinizer import SentenceBERTinizer
 from data_processing.data_prep import EntityRelationsAligner, get_dataset
-from data_processing.data_load import NYTjsonDataset, collate_fn
+from data_processing.data_load import jsonDataset, collate_fn
 from data_processing.EntityRelationInfoCollector import InfoCollector
 from model.BERTGraphRel import BERTGraphRel
 from model.training import train_BERTGraphRel_model
@@ -54,8 +54,8 @@ if __name__=="__main__":
         num_ne = er_aligner.NE_vsize
         num_rel = er_aligner.REL_vsize
 
-    trainset = NYTjsonDataset(data_nyt_train, sentbertnizer, er_aligner)
-    testset = NYTjsonDataset(data_nyt_test, sentbertnizer, er_aligner)
+    trainset = jsonDataset(data_nyt_train, sentbertnizer, er_aligner)
+    testset = jsonDataset(data_nyt_test, sentbertnizer, er_aligner)
 
     trainloader = DataLoader(trainset, batch_size=8, collate_fn=collate_fn)
     testloader = DataLoader(trainset, batch_size=8, collate_fn=collate_fn)
