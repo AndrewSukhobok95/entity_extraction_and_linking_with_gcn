@@ -43,8 +43,8 @@ def eval_BERTGraphRel_model(model,
                                                batch_rel_true=b_rel_tensor,
                                                sentences_length=sentences_length)
 
-            print("Current precision:", test_triplet_confusion.getPrecision())
-            print("Current recall:", test_triplet_confusion.getRecall())
+            print("Current precision:", test_triplet_confusion.getPrecision(), end='\r')
+            print("Current recall:", test_triplet_confusion.getRecall(), end='\r')
 
             if (i + 1) % 50 == 0:
                 dur = (int)(time.time() - test_start_time)
