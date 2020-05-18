@@ -74,12 +74,17 @@ class DumbDataSetConstructor(object):
             s = self.generate_rel_sample(r)
             self.sample.append(s)
 
+    def clear_sample(self):
+        self.sample = []
+
     def get_dataset(self):
         return self.sample, self.entity_list, self.relation_list
 
     def write_json_dataset(self, path):
-        with open(path, 'w') as json_file:
-            json.dump(self.sample, json_file)
+        with open(path, 'a') as json_file:
+            for s in self.sample:
+                json.dump(s, json_file)
+                json_file.write("\n")
 
 
 

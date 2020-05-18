@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from pytorch_pretrained_bert import BertTokenizer, BertModel
 
 from data_processing.BERTinizer import SentenceBERTinizer
-from data_processing.data_prep import EntityRelationsAligner, get_dataset
+from data_processing.data_prep import tgtEntRelConstructor, get_dataset
 from data_processing.data_load import jsonDataset, collate_fn
 from data_processing.EntityRelationInfoCollector import InfoCollector
 from model.BERTGraphRel import BERTGraphRel
@@ -49,7 +49,7 @@ if __name__=="__main__":
         NE_LIST = info_collector.info_dict["original_entities"]
         REL_LIST = info_collector.info_dict["original_relations"]
 
-    er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
+    er_aligner = tgtEntRelConstructor(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
     if not load_text_info_from_json:
         num_ne = er_aligner.NE_vsize
         num_rel = er_aligner.REL_vsize

@@ -97,13 +97,13 @@ def collate_fn(batch):
 if __name__=="__main__":
 
     from data_processing.BERTinizer import SentenceBERTinizer
-    from data_processing.data_prep import EntityRelationsAligner, get_dataset
+    from data_processing.data_prep import tgtEntRelConstructor, get_dataset
 
     sentbertnizer = SentenceBERTinizer()
 
     data_nyt_train, NE_LIST, REL_LIST = get_dataset("./../data/preproc_NYT_json/train.json", sentbertnizer.tokenizer)
 
-    er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
+    er_aligner = tgtEntRelConstructor(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
 
     trainset = jsonDataset(data_nyt_train, sentbertnizer, er_aligner)
 

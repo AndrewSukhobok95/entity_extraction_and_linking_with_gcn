@@ -5,7 +5,7 @@ import json
 from typing import List, Tuple
 import tqdm
 
-class EntityRelationsAligner(object):
+class tgtEntRelConstructor(object):
     def __init__(self, tokenizer, ne_tags: List[str], rel_tags: List[str]):
         # tokenizer must have base_tokenize method similar to SentenceBERTnizer
         self.tokenizer = tokenizer
@@ -297,7 +297,7 @@ if __name__=="__main__":
     from data_processing.BERTinizer import SentenceBERTinizer
     sentbertnizer = SentenceBERTinizer()
 
-    er_aligner = EntityRelationsAligner(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
+    er_aligner = tgtEntRelConstructor(tokenizer=sentbertnizer, ne_tags=NE_LIST, rel_tags=REL_LIST)
 
     tokens_base = sentbertnizer.base_tokenize(sentence, clean_marking=False)
     ne_tensor, rel_tensor = er_aligner.get_ne_rel_tensors(tokens_base, entityMentions, relationMentions)
