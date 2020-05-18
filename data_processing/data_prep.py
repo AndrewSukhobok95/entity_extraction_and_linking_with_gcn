@@ -210,7 +210,7 @@ class tgtEntRelConstructor(object):
 
 
 
-def get_dataset(path, bert_wp_tokenizer):
+def get_dataset(path, bert_wp_tokenizer=None):
     '''
     Temporary function for particular dataset provided by https://github.com/INK-USC/USC-DS-RelationExtraction.
     It excludes observations that:
@@ -240,13 +240,13 @@ def get_dataset(path, bert_wp_tokenizer):
             ne_mentiones = obs['entityMentions']
             rel_mentiones = obs['relationMentions']
 
-            #marked_sentText = "[CLS] " + sentText + " [SEP]"
-            #sentText_wp_tokens = bert_wp_tokenizer.tokenize(marked_sentText)
-            marked_sentText = "[CLS] " + sentText.lower() + " [SEP]"
-            sentText_wp_tokens = bert_wp_tokenizer.wordpiece_tokenizer.tokenize(marked_sentText)
-
-            if len(sentText_wp_tokens) > 512:
-                skip_obs = True
+            if bert_wp_tokenizer is not None:
+                #marked_sentText = "[CLS] " + sentText + " [SEP]"
+                #sentText_wp_tokens = bert_wp_tokenizer.tokenize(marked_sentText)
+                marked_sentText = "[CLS] " + sentText.lower() + " [SEP]"
+                sentText_wp_tokens = bert_wp_tokenizer.wordpiece_tokenizer.tokenize(marked_sentText)
+                if len(sentText_wp_tokens) > 512:
+                    skip_obs = True
 
             for ne in ne_mentiones:
                 ne_set.add(ne["label"])
