@@ -13,7 +13,7 @@ from model.BERTGraphRel import BERTGraphRel
 from model.training import train_BERTGraphRel_model
 from model.evaluation import eval_BERTGraphRel_model
 
-train = True
+train = False
 eval = True
 text_info_dict_path = "./json_dicts/dumb_info.json"
 data_json_train_path = "./data/dumb/dumb_train.json"
