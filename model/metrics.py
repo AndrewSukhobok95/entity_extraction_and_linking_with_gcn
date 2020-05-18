@@ -45,8 +45,8 @@ class TripletConfusionStats(object):
 
         for b in range(batch_size):
             sl = sentences_length[b]
-            pred_rel_inds = batch_rel_pred[:sl, :sl, b].nonzero().detach().numpy()
-            true_rel_inds = batch_rel_true[:sl, :sl, b].nonzero().detach().numpy()
+            pred_rel_inds = batch_rel_pred[:sl, :sl, b].nonzero().detach().cpu().numpy()
+            true_rel_inds = batch_rel_true[:sl, :sl, b].nonzero().detach().cpu().numpy()
 
             cur_tp = 0
 
