@@ -43,12 +43,8 @@ def eval_BERTGraphRel_model(model,
                                                batch_rel_true=b_rel_tensor,
                                                sentences_length=sentences_length)
 
-            print("Current precision:", test_triplet_confusion.getPrecision(), end='\r')
-            print("Current recall:", test_triplet_confusion.getRecall(), end='\r')
-
-            if (i + 1) % 50 == 0:
-                dur = (int)(time.time() - test_start_time)
-                print("{0:d} batches done in {1:d}m:{2:d}s".format(i + 1, dur // 60, dur % 60), end='\r')
+            print("Current test batch Precision: {0:0.5f}".format(test_triplet_confusion.getPrecision()),
+                  "Current test batch Recall:{0:0.5f}", test_triplet_confusion.getRecall(), sep='\n', end='\r')
 
         test_precision = test_triplet_confusion.getPrecision()
         test_recall = test_triplet_confusion.getRecall()
@@ -79,9 +75,8 @@ def eval_BERTGraphRel_model(model,
                                                 batch_rel_true=b_rel_tensor,
                                                 sentences_length=sentences_length)
 
-            if (i + 1) % 50 == 0:
-                dur = (int)(time.time() - train_start_time)
-                print("{0:d} batches done in {1:d}m:{2:d}s".format(i + 1, dur // 60, dur % 60), end='\r')
+            print("Current train batch Precision: {0:0.5f}".format(train_triplet_confusion.getPrecision()),
+                  "Current train batch Recall:{0:0.5f}", train_triplet_confusion.getRecall(), sep='\n', end='\r')
 
         train_precision = train_triplet_confusion.getPrecision()
         train_recall = train_triplet_confusion.getRecall()

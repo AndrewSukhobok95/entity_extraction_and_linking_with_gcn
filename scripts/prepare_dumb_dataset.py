@@ -20,7 +20,7 @@ if __name__=="__main__":
     ddsc = DumbDataSetConstructor(config_path=dumb_dataset_config_path)
 
     print("+ Preparing and saving train dataset.")
-    ddsc.generate_dataset(n=900)
+    ddsc.generate_dataset(n=6000)
     data, ne_list, rel_list = ddsc.get_dataset()
     ddsc.write_json_dataset(train_dumb_dataset_path)
 
@@ -44,7 +44,7 @@ if __name__=="__main__":
 
     print("+ Preparing and saving test dataset.")
     ddsc.clear_sample()
-    ddsc.generate_dataset(n=150)
+    ddsc.generate_dataset(n=300)
     ddsc.write_json_dataset(test_dumb_dataset_path)
 
     print("+ done!")
