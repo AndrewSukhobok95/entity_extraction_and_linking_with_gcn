@@ -69,7 +69,7 @@ if __name__=="__main__":
         train_BERTGraphRel_model(model=model,
                                  trainloader=trainloader,
                                  testloader=None,
-                                 device="cpu", # cuda:0 / cpu
+                                 device="cuda:0", # cuda:0 / cpu
                                  model_save_path="./bertgl_v0_dumb_haifu.pth",
                                  nepochs=50,
                                  lr=0.0001,
@@ -81,7 +81,7 @@ if __name__=="__main__":
         eval_BERTGraphRel_model(model=model,
                                 trainloader=trainloader,
                                 testloader=testloader,
-                                device="cpu", # cuda:0 / cpu
+                                device="cuda:0", # cuda:0 / cpu
                                 model_save_path="./bertgl_v0_dumb_haifu.pth",
                                 load_model=True)
 
