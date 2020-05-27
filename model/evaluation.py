@@ -43,7 +43,8 @@ def eval_BERTGraphRel_model(model,
                                                batch_rel_true=b_rel_tensor,
                                                sentences_length=sentences_length)
             if i % 50 == 0:
-                print("P = {0:0.3f}".format(test_triplet_confusion.getPrecision()),
+                print("iter =", i,
+                      "P = {0:0.3f}".format(test_triplet_confusion.getPrecision()),
                       "R = {0:0.3f}".format(test_triplet_confusion.getRecall()),
                       sep=' ', end='\r')
 
@@ -77,7 +78,8 @@ def eval_BERTGraphRel_model(model,
                                                 sentences_length=sentences_length)
 
             if i % 50 == 0:
-                print("P = {0:0.3f}".format(train_triplet_confusion.getPrecision()),
+                print("iter =", i,
+                      "P = {0:0.3f}".format(train_triplet_confusion.getPrecision()),
                       "R = {0:0.3f}".format(train_triplet_confusion.getRecall()),
                       sep=' ', end='\r')
 
