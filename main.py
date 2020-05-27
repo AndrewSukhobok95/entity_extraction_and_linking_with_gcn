@@ -13,7 +13,7 @@ from model.BERTGraphRel import BERTGraphRel
 from model.training import train_BERTGraphRel_model
 from model.evaluation import eval_BERTGraphRel_model
 
-train = False
+train = True
 eval = True
 save_text_info = False
 load_text_info_from_json = True
@@ -92,7 +92,7 @@ if __name__=="__main__":
                                  testloader=None,
                                  device="cuda:0", # cuda:0 / cpu
                                  model_save_path=model_path,
-                                 nepochs=50,
+                                 nepochs=10,
                                  lr=0.0001,
                                  loss_p2_weight=2,
                                  load_model=True)

@@ -3,9 +3,13 @@ from data_processing.EntityRelationInfoCollector import InfoCollector
 from model.BERTGraphRelExtractor import BERTGraphRelExtractor
 from data_processing.data_prep import get_dataset
 
-info_dict_json_path = "./../json_dicts/dumb_info.json"
-data_json_test_path = "./../data/dumb_2/dumb_test.json"
-model_path = "./../trained_models/dumb_bertlgl_v0.pth"
+# info_dict_json_path = "./../json_dicts/dumb_info.json"
+# data_json_test_path = "./../data/dumb_2/dumb_test.json"
+# model_path = "./../trained_models/dumb_bertlgl_v0.pth"
+
+info_dict_json_path = "./../json_dicts/NYT_info.json"
+data_json_test_path = "./../data/preproc_NYT_json/test.json"
+model_path = "./../trained_models/nyt_bertgl_v0.pth"
 
 data_test, _, _ = get_dataset(data_json_test_path)
 
@@ -47,8 +51,6 @@ if __name__=="__main__":
     print()
 
 
-    # for i in range(10):
-    #     obs = data_test[i]
     for obs in data_test:
 
         sentText = obs["sentText"]
