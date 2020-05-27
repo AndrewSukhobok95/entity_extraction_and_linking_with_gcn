@@ -18,7 +18,7 @@ eval = True
 text_info_dict_path = "./json_dicts/dumb_info.json"
 data_json_train_path = "./data/dumb_2/dumb_train.json"
 data_json_test_path = "./data/dumb_2/dumb_test.json"
-model_path = "./bertgl_v1_dumb_haifu.pth"
+model_path = "./trained_models/dumb_bertlgl_v0.pth"
 
 if __name__=="__main__":
 

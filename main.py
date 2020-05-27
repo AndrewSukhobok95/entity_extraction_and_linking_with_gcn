@@ -18,6 +18,9 @@ eval = True
 save_text_info = False
 load_text_info_from_json = True
 text_info_dict_path = "./json_dicts/NYT_info.json"
+nyt_json_train = "./data/preproc_NYT_json/train.json"
+nyt_json_test = "./data/preproc_NYT_json/test.json"
+model_path = "./trained_models/nyt_bertgl_v0.pth"
 
 if __name__=="__main__":
 
@@ -30,9 +33,6 @@ if __name__=="__main__":
     # Data Prep
 
     print("+ Reading data.")
-
-    nyt_json_train = "./data/preproc_NYT_json/train.json"
-    nyt_json_test = "./data/preproc_NYT_json/test.json"
 
     data_nyt_train, NE_LIST, REL_LIST = get_dataset(nyt_json_train, sentbertnizer.tokenizer)
     data_nyt_test, _, _ = get_dataset(nyt_json_test, sentbertnizer.tokenizer)
@@ -91,7 +91,7 @@ if __name__=="__main__":
                                  trainloader=trainloader,
                                  testloader=None,
                                  device="cuda:0", # cuda:0 / cpu
-                                 model_save_path="./trained_models/nyt_bertgl_v0.pth",
+                                 model_save_path=model_path,
                                  nepochs=50,
                                  lr=0.0001,
                                  loss_p2_weight=2,
@@ -103,7 +103,7 @@ if __name__=="__main__":
                                 trainloader=trainloader,
                                 testloader=testloader,
                                 device="cuda:0", # cuda:0 / cpu
-                                model_save_path="./trained_models/nyt_bertgl_v0.pth",
+                                model_save_path=model_path,
                                 load_model=True)
 
     print("+ done!")
