@@ -48,12 +48,10 @@ def pad_rel_tensors(rel_tensors: List[torch.tensor],
 
     if batch_first:
         padded_rel_tensors = torch.ones(n_obs, max_seq_len, max_seq_len) * padding_value
-        padded_rel_tensors[0,:,:] = rel_tensors[0]
     else:
         padded_rel_tensors = torch.ones(max_seq_len, max_seq_len, n_obs) * padding_value
-        padded_rel_tensors[:,:,0] = rel_tensors[0]
 
-    for i in range(1, n_obs-1):
+    for i in range(0, n_obs):
         rt = rel_tensors[i]
         if batch_first:
             padded_rel_tensors[i, :rt.size(0), :rt.size(1)] = rt
@@ -66,7 +64,7 @@ def collate_fn(batch):
     '''
     Convert input batch to the input of the network
     :param batch: Consists of n (defined by DataLoader) observations
-                  Each observation is expected to be output from NYTjsonDataset:
+                  Each observation is expected to be output from jsonDataset:
                   - bert_avg_embeddings: tensor.size() -> (seq_len, embedding_size)
                   - ne_tensor: tensor.size() -> (seq_len)
                   - rel_tensor: tensor.size() -> (seq_len, seq_len)

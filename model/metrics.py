@@ -63,7 +63,7 @@ class TripletConfusionStats(object):
                     true_e1 = batch_ne_true[y_tr, b].item()
                     true_e2 = batch_ne_true[x_tr, b].item()
 
-                    if (pred_rel==true_rel) & (pred_e1==true_e1) & (pred_e2==true_e2):
+                    if (y_pr == y_tr) & (x_pr == x_tr) & (pred_rel==true_rel) & (pred_e1==true_e1) & (pred_e2==true_e2):
                         cur_tp += 1
 
             self.TP += cur_tp

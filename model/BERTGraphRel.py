@@ -75,8 +75,10 @@ class BERTGraphRel(nn.Module):
 
         trel_0 = trel_0.view((trel_0.shape[0], 1, trel_0.shape[1], trel_0.shape[2]))
         trel_0 = trel_0.expand((trel_0.shape[0], trel_0.shape[0], trel_0.shape[2], trel_0.shape[3]))
+
         trel_1 = trel_1.view((1, trel_1.shape[0], trel_1.shape[1], trel_1.shape[2]))
         trel_1 = trel_1.expand((trel_1.shape[1], trel_1.shape[1], trel_1.shape[2], trel_1.shape[3]))
+
         trel = torch.cat([trel_0, trel_1], dim=3)
 
         out_rel = self.fc_rel(trel)

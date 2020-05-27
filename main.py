@@ -91,7 +91,7 @@ if __name__=="__main__":
                                  trainloader=trainloader,
                                  testloader=None,
                                  device="cuda:0", # cuda:0 / cpu
-                                 model_save_path="./bertgl_v0_zombie.pth",
+                                 model_save_path="./trained_models/nyt_bertgl_v0.pth",
                                  nepochs=50,
                                  lr=0.0001,
                                  loss_p2_weight=2,
@@ -102,8 +102,8 @@ if __name__=="__main__":
         eval_BERTGraphRel_model(model=model,
                                 trainloader=trainloader,
                                 testloader=testloader,
-                                device="cpu", # cuda:0 / cpu
-                                model_save_path="./bertgl_v0_zombie.pth",
+                                device="cuda:0", # cuda:0 / cpu
+                                model_save_path="./trained_models/nyt_bertgl_v0.pth",
                                 load_model=True)
 
     print("+ done!")

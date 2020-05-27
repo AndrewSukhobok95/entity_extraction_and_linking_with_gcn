@@ -13,11 +13,12 @@ from model.BERTGraphRel import BERTGraphRel
 from model.training import train_BERTGraphRel_model
 from model.evaluation import eval_BERTGraphRel_model
 
-train = True
+train = False
 eval = True
 text_info_dict_path = "./json_dicts/dumb_info.json"
 data_json_train_path = "./data/dumb_2/dumb_train.json"
 data_json_test_path = "./data/dumb_2/dumb_test.json"
+model_path = "./bertgl_v1_dumb_haifu.pth"
 
 if __name__=="__main__":
 
@@ -70,7 +71,7 @@ if __name__=="__main__":
                                  trainloader=trainloader,
                                  testloader=None,
                                  device="cuda:0", # cuda:0 / cpu
-                                 model_save_path="./bertgl_v1_dumb_haifu.pth",
+                                 model_save_path=model_path,
                                  nepochs=30,
                                  lr=0.0001,
                                  loss_p2_weight=2,
@@ -82,7 +83,7 @@ if __name__=="__main__":
                                 trainloader=trainloader,
                                 testloader=testloader,
                                 device="cuda:0", # cuda:0 / cpu
-                                model_save_path="./bertgl_v1_dumb_haifu.pth",
+                                model_save_path=model_path,
                                 load_model=True)
 
     print("+ done!")

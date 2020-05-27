@@ -5,7 +5,7 @@ from data_processing.data_prep import get_dataset
 
 info_dict_json_path = "./../json_dicts/dumb_info.json"
 data_json_test_path = "./../data/dumb_2/dumb_test.json"
-model_path = "./../bertgl_v1_dumb_haifu.pth"
+model_path = "./../trained_models/dumb_bertlgl_v0.pth"
 
 data_test, _, _ = get_dataset(data_json_test_path)
 
