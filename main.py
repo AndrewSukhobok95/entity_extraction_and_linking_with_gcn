@@ -58,7 +58,7 @@ if __name__=="__main__":
     testset = jsonDataset(data_nyt_test, sentbertnizer, er_aligner)
 
     trainloader = DataLoader(trainset, batch_size=8, collate_fn=collate_fn)
-    testloader = DataLoader(trainset, batch_size=8, collate_fn=collate_fn)
+    testloader = DataLoader(testset, batch_size=8, collate_fn=collate_fn)
 
     # Model Prep
     embedding_size = sentbertnizer.embedding_size
