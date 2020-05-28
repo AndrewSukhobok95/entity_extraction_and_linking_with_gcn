@@ -21,6 +21,7 @@ text_info_dict_path = "./json_dicts/NYT_info.json"
 nyt_json_train = "./data/preproc_NYT_json/train.json"
 nyt_json_test = "./data/preproc_NYT_json/test.json"
 model_path = "./trained_models/nyt_bertgl_v0.pth"
+DEVICE = "cuda:0" # cuda:0 / cpu
 
 if __name__=="__main__":
 
@@ -90,7 +91,7 @@ if __name__=="__main__":
         train_BERTGraphRel_model(model=model,
                                  trainloader=trainloader,
                                  testloader=None,
-                                 device="cuda:0", # cuda:0 / cpu
+                                 device=DEVICE, # cuda:0 / cpu
                                  model_save_path=model_path,
                                  nepochs=10,
                                  lr=0.0001,
@@ -102,7 +103,7 @@ if __name__=="__main__":
         eval_BERTGraphRel_model(model=model,
                                 trainloader=trainloader,
                                 testloader=testloader,
-                                device="cuda:0", # cuda:0 / cpu
+                                device=DEVICE, # cuda:0 / cpu
                                 model_save_path=model_path,
                                 load_model=True)
 

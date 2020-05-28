@@ -108,7 +108,7 @@ class tgtEntRelConstructor(object):
             ne_array[tind[0]] = tb_index
 
             if e["n_tokens"] > 1:
-                for i in range(1, e["n_tokens"] - 1):
+                for i in range(1, e["n_tokens"]):
                     ne_array[tind[i]] = ti_index
         return torch.tensor(ne_array)
 
@@ -210,7 +210,8 @@ class tgtEntRelConstructor(object):
 
 
 
-def get_dataset(path, bert_wp_tokenizer=None):
+def get_dataset(path:str,
+                bert_wp_tokenizer=None) -> Tuple[list, list, list]:
     '''
     Temporary function for particular dataset provided by https://github.com/INK-USC/USC-DS-RelationExtraction.
     It excludes observations that:

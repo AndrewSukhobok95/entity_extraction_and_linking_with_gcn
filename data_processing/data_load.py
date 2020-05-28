@@ -11,7 +11,7 @@ class jsonDataset(Dataset):
         self.bertinizer = bertinizer
         self.eraligner = eraligner
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         observation = self.data[index]
 
         sentence = observation["sentText"]
