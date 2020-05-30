@@ -56,8 +56,7 @@ if __name__=="__main__":
     print("+ PREDICTED RELATIONS:")
     pretty_pred_rel_print(tokens_base, rel_list)
     print()
-
-
+    
     for obs in data_test:
 
         sentText = obs["sentText"]

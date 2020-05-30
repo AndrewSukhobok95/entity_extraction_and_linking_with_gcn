@@ -1,5 +1,13 @@
 # DL_GraphEntity_project
 
+Training parameters:
+
+| Parameters    | Values        |
+| ------------- |:-------------:|
+| N epochs      | 65            |
+
+
+
 Project id based on the following paper:
 * Original paper: https://www.aclweb.org/anthology/P19-1136/
 * Original project page: https://tsujuifu.github.io/projs/acl19_graph-rel.html

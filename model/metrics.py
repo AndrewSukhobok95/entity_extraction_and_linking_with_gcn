@@ -39,8 +39,8 @@ class EntityConfusionStats(object):
 
         for b in range(batch_size):
             sl = sentences_length[b]
-            sp = batch_ne_pred[:sl, b].detach().numpy()
-            st = batch_ne_true[:sl, b].detach().numpy()
+            sp = batch_ne_pred[:sl, b].detach().cpu().numpy()
+            st = batch_ne_true[:sl, b].detach().cpu().numpy()
 
             for i in range(sl):
                 if (sp[i]==st[i]) & (st[i]==0):
