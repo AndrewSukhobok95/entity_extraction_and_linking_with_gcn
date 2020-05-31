@@ -3,13 +3,13 @@ from data_processing.EntityRelationInfoCollector import InfoCollector
 from model.BERTGraphRelExtractor import BERTGraphRelExtractor
 from data_processing.data_prep import get_dataset
 
-info_dict_json_path = "./../json_dicts/dumb_info.json"
-data_json_test_path = "./../data/dumb_2/dumb_test.json"
-model_path = "./../trained_models/dumb_bertlgl_v0.pth"
+# info_dict_json_path = "./../json_dicts/dumb_info.json"
+# data_json_test_path = "./../data/dumb_2/dumb_test.json"
+# model_path = "./../trained_models/dumb_bertlgl_v0.pth"
 
-# info_dict_json_path = "./../json_dicts/NYT_info.json"
-# data_json_test_path = "./../data/preproc_NYT_json/test.json"
-# model_path = "./../trained_models/nyt_bertgl_v0.pth"
+info_dict_json_path = "./../json_dicts/NYT_info.json"
+data_json_test_path = "./../data/preproc_NYT_json/train.json"
+model_path = "./../trained_models/nyt_bertgl_v0.pth"
 
 
 data_test, _, _ = get_dataset(data_json_test_path)
@@ -28,10 +28,6 @@ def pretty_pred_entity_print(tokens_base, entity_type):
         if te != "O":
             print("+++", te, "-", t)
 
-def pretty_pred_rel_print(tokens_base, rel_list):
-    for r in rel_list:
-        print("+++", tokens_base[r[0]], "-", tokens_base[r[1]], "-", r[2])
-
 def pretty_true_entity_print(entityMentions):
     for e in entityMentions:
         print("+++", e["label"], "-", e["text"])
@@ -39,6 +35,10 @@ def pretty_true_entity_print(entityMentions):
 def pretty_true_rel_print(relationMentions):
     for r in relationMentions:
         print("+++", r['em1Text'], "-", r['em2Text'], "-", r["label"])
+
+def pretty_pred_rel_print(tokens_base, rel_list):
+    for r in rel_list:
+        print("+++", tokens_base[r[0]], "-", tokens_base[r[1]], "-", r[2])
 
 if __name__=="__main__":
 
