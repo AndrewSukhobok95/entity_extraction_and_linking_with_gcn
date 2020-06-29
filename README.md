@@ -22,7 +22,7 @@ Project id based on the following paper:
 #### Related papers:
 
 * Span BERT
-    * https://arxiv.org/pdf/1909.07755.pdf
+    * https://arxiv.org/abs/1909.07755
     * https://github.com/markus-eberts/spert/tree/master/spert
 
 * GUpdater
@@ -34,7 +34,7 @@ Project id based on the following paper:
     * https://github.com/luanyi/DyGIE
 
 * Inter Sentence RE GCN
-    * https://arxiv.org/pdf/1906.04684.pdf
+    * https://www.aclweb.org/anthology/P19-1423/
 
 * A Hierarchical Framework for Relation Extraction with Reinforcement Learning
     * https://arxiv.org/abs/1811.03925

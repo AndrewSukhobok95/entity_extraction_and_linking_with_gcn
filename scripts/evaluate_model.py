@@ -13,15 +13,15 @@ from model.BERTGraphRel import BERTGraphRel
 from model.training import train_BERTGraphRel_model
 from model.evaluation import eval_BERTGraphRel_model
 
-text_info_dict_path = "./../json_dicts/dumb_info.json"
-data_json_train_path = "./../data/dumb_2/dumb_train.json"
-data_json_test_path = "./../data/dumb_2/dumb_test.json"
-model_path = "./../trained_models/dumb_bertlgl_v0.pth"
+# text_info_dict_path = "./../json_dicts/dumb_info.json"
+# data_json_train_path = "./../data/dumb_2/dumb_train.json"
+# data_json_test_path = "./../data/dumb_2/dumb_test.json"
+# model_path = "./../trained_models/dumb_bertlgl_v0.pth"
 
-# text_info_dict_path = "./../json_dicts/NYT_info.json"
-# data_json_train_path = "./../data/preproc_NYT_json/train.json"
-# data_json_test_path = "./../data/preproc_NYT_json/test.json"
-# model_path = "./../trained_models/nyt_bertgl_v0.pth"
+text_info_dict_path = "./../json_dicts/NYT_info.json"
+data_json_train_path = "./../data/preproc_NYT_json/train.json"
+data_json_test_path = "./../data/preproc_NYT_json/test.json"
+model_path = "./../trained_models/nyt_bertgl_v0.pth"
 
 if __name__=="__main__":
 

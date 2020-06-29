@@ -8,7 +8,7 @@ from data_processing.data_prep import get_dataset
 # model_path = "./../trained_models/dumb_bertlgl_v0.pth"
 
 info_dict_json_path = "./../json_dicts/NYT_info.json"
-data_json_test_path = "./../data/preproc_NYT_json/train.json"
+data_json_test_path = "./../data/preproc_NYT_json/test.json"
 model_path = "./../trained_models/nyt_bertgl_v0.pth"
 
 
