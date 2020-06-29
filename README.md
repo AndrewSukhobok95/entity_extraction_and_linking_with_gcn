@@ -1,19 +1,59 @@
 # DL_GraphEntity_project
 
+Research Experience Project 02/2020 - 05/2020
+
+Aim: Train DL model to extract facts from text.
+
+Done:
+- DL model is built and tested (NER - good quality, RE - relatively bad)
+- classes for metrics calculation are written (model/metrics.py)
+
+ToDo:
+- finish testing the model, calculate metrics
+- clean the dataset
+- possible bug with model saving and loading (!)
+
+Example:
+
+> ORIGINAL SENTENCE:
+>
+> "In remote rural corners of India , particularly in conflict zones like Chhattisgarh , police ranks are woefully understaffed , and isolated police posts are among the rebels ' favorite targets ."
+>
+> TRUE ENTITIES:
+> + LOCATION - India
+> + LOCATION - Chhattisgarh
+>
+> PREDICTED ENTITIES:
+> + B-LOCATION - india
+> + B-LOCATION - chhattisgarh
+>
+> SENTENCE WITH PREDICTED ENTITIES:
+>
+> "in remote rural corners of india (B-LOCATION) , particularly in conflict zones like chhattisgarh (B-LOCATION) , police ranks are woefully understaffed , and isolated police posts are among the rebels ' favorite targets . "
+>
+> TRUE RELATIONS:
+> + India - Chhattisgarh - /location/location/contains
+> + Chhattisgarh - India - None
+>
+> PREDICTED RELATIONS:
+> + india - chhattisgarh - /location/location/contains
+
+
+
+Architecture in this project is inspired by:
+* Original paper: https://www.aclweb.org/anthology/P19-1136/
+* Original project page: https://tsujuifu.github.io/projs/acl19_graph-rel.html
+
+The following dataset was used: https://github.com/INK-USC/USC-DS-RelationExtraction
+
 Training parameters:
 
 | Parameters    | Values        |
 | ------------- |:-------------:|
-| N epochs      | 65            |
-
-
-
-Project id based on the following paper:
-* Original paper: https://www.aclweb.org/anthology/P19-1136/
-* Original project page: https://tsujuifu.github.io/projs/acl19_graph-rel.html
+| N epochs      | 100           |
 
 ---
-#### Related links:
+#### Useful links:
 
 * BERT link:
     * https://mccormickml.com/2019/05/14/BERT-word-embeddings-tutorial/
